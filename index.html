@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Maturity Index — Jungle</title>
+<link rel="icon" type="image/png" href="https://junglecreations.com/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F5F2EB;
+  --black: #111110;
+  --green: #8BFF57;
+  --green-dim: #5acc30;
+  --white: #FAFAF7;
+  --grey-light: #ECEAE3;
+  --grey: #C8C4BB;
+  --grey-mid: #888580;
+  --border: #E2DFD8;
+  --red: #e05c5c;
+  --amber: #f5a623;
+  --blue: #4a90d9;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--black); font-size: 14px; line-height: 1.5; min-height: 100vh; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--black); display: flex; align-items: center; padding: 0 28px; height: 52px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.nav-logo { font-size: 13px; font-weight: 800; color: var(--green); letter-spacing: -0.01em; margin-right: 32px; white-space: nowrap; cursor: pointer; }
+.nav-logo span { color: rgba(255,255,255,0.4); font-weight: 400; }
+.nav-tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab { background: none; border: none; color: rgba(255,255,255,0.45); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; padding: 0 14px; height: 52px; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; }
+.nav-tab:hover { color: rgba(255,255,255,0.8); }
+.nav-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+.view { display: none; padding-top: 52px; min-height: 100vh; }
+.view.active { display: block; }
+.page { max-width: 1100px; margin: 0 auto; padding: 48px 32px 120px; }
+.page.wide { max-width: 1240px; }
+
+.eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-mid); margin-bottom: 10px; display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green-dim); }
+.h1 { font-size: clamp(34px, 4.5vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 16px; }
+.h1 span { color: var(--green-dim); font-style: italic; font-weight: 400; }
+.sub { font-size: 15px; color: var(--grey-mid); line-height: 1.55; max-width: 720px; margin-bottom: 40px; }
+
+.hero { background: var(--black); color: var(--cream); border-radius: 20px; padding: 44px 48px; margin-bottom: 40px; }
+.hero .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: var(--green); text-transform: uppercase; margin-bottom: 18px; }
+.hero h1 { font-size: clamp(36px,4.5vw,56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 16px; }
+.hero h1 span { color: var(--green); font-style: italic; font-weight: 400; }
+.hero p { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.6; max-width: 640px; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 40px; }
+@media (max-width: 800px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.stat { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+.stat-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--grey-mid); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+.stat-value { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.stat-value.green { color: var(--green-dim); }
+.stat-value.amber { color: #e09a00; }
+.stat-sub { font-size: 11px; color: var(--grey-mid); margin-top: 4px; line-height: 1.4; }
+
+.section-label { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey-mid); margin-bottom: 14px; display: flex; align-items: center; gap: 14px; margin-top: 40px; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.card { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 22px 24px; }
+.card + .card { margin-top: 12px; }
+
+.pill { display: inline-flex; align-items: center; gap: 5px; font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 100px; background: var(--grey-light); color: var(--grey-mid); }
+.pill.green { background: rgba(139,255,87,0.25); color: #2d6b00; }
+.pill.amber { background: rgba(245,166,35,0.18); color: #7a4e00; }
+.pill.red { background: rgba(224,92,92,0.15); color: #9b1c1c; }
+.pill.blue { background: rgba(74,144,217,0.15); color: #1a4a7a; }
+.pill.black { background: var(--black); color: var(--green); }
+
+/* Timeline */
+.phases { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 28px; }
+@media (max-width: 900px) { .phases { grid-template-columns: repeat(2, 1fr); } }
+.phase { background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; padding: 14px; }
+.phase.current { border-color: var(--green); }
+.phase-num { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--grey-mid); letter-spacing: 0.1em; }
+.phase-name { font-size: 14px; font-weight: 700; margin-top: 2px; }
+.phase-range { font-size: 11px; color: var(--grey-mid); margin-top: 4px; font-family: 'DM Mono', monospace; }
+.phase-count { font-size: 11px; color: var(--black); margin-top: 8px; font-weight: 600; }
+
+.workstream-section { margin-bottom: 30px; }
+.workstream-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 12px 16px; background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; }
+.workstream-title { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+.workstream-desc { font-size: 11px; color: var(--grey-mid); margin-top: 3px; }
+.task-list { background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+.task-row { display: grid; grid-template-columns: auto 1fr auto auto; gap: 14px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 12px; }
+.task-row:last-child { border-bottom: none; }
+.task-row:hover { background: rgba(0,0,0,0.015); }
+.task-check { width: 16px; height: 16px; border: 1.5px solid var(--grey); border-radius: 4px; flex-shrink: 0; }
+.task-row.done .task-check { background: var(--green); border-color: var(--green); }
+.task-row.done .task-check::after { content: '✓'; color: var(--black); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; line-height: 14px; }
+.task-row.done .task-title { text-decoration: line-through; color: var(--grey-mid); }
+.task-title { font-weight: 600; }
+.task-meta { display: flex; gap: 6px; align-items: center; }
+.task-due { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--grey-mid); white-space: nowrap; }
+.task-due.overdue { color: var(--red); font-weight: 700; }
+
+.speakers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.speaker-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+.speaker-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--black); color: var(--green); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; margin-bottom: 4px; }
+.speaker-name { font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+.speaker-role { font-size: 12px; color: var(--grey-mid); line-height: 1.5; }
+.speaker-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid var(--border); font-size: 11px; color: var(--grey-mid); margin-top: auto; }
+.tbd-strip { background: #fff8e1; border: 1.5px dashed #f5a623; color: #7a4e00; padding: 10px 14px; border-radius: 8px; font-size: 12px; line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
+.tbd-strip::before { content: '!'; flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; background: #f5a623; color: white; font-family: 'DM Mono', monospace; font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+
+/* Nurture */
+.nurture-list { background: var(--white); border: 1.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+.nurture-list-header { display: grid; grid-template-columns: 80px 60px 1fr auto; gap: 14px; padding: 10px 16px; background: var(--grey-light); font-family: 'DM Mono', monospace; font-size: 9px; color: var(--grey-mid); letter-spacing: 0.12em; text-transform: uppercase; }
+.nurture-step-row { display: grid; grid-template-columns: 80px 60px 1fr auto; gap: 14px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 12px; }
+.nurture-step-row:last-child { border-bottom: none; }
+.step-n { font-family: 'DM Mono', monospace; color: var(--grey-mid); font-size: 10px; letter-spacing: 0.1em; }
+.step-offset { font-family: 'DM Mono', monospace; font-weight: 700; }
+.step-goal { display: block; color: var(--grey-mid); font-size: 11px; font-weight: 400; margin-top: 2px; line-height: 1.4; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Jungle <span>/</span> SMI</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showView('overview',this)">Overview</button>
+    <button class="nav-tab" onclick="showView('timeline',this)">Timeline</button>
+    <button class="nav-tab" onclick="showView('speakers',this)">Speakers</button>
+    <button class="nav-tab" onclick="showView('nurture',this)">Nurture</button>
+  </div>
+</nav>
+
+<div class="view active" id="view-overview">
+  <div class="page">
+    <div class="eyebrow">Flagship event · October 2026</div>
+    <div class="hero">
+      <div class="hero-eyebrow">The Roar moment</div>
+      <h1>Social Maturity <span>Index.</span></h1>
+      <p>A proprietary framework, a report, and an owned event — Jungle's flagship October moment. The anchor for 12 months of content and the catalyst for 6 months of post-event nurture.</p>
+    </div>
+
+    <div id="smi-stats"></div>
+
+    <div class="section-label">The event</div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;font-size:13px">
+        <div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey-mid);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px">Audience</div>CMOs, Marketing Directors, Heads of Social</div>
+        <div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey-mid);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px">Date</div>Mid-October 2026</div>
+        <div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey-mid);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px">Anchored pillar</div>Social Maturity</div>
+        <div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--grey-mid);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px">Flagship</div>Yes — one per year</div>
+      </div>
+    </div>
+
+    <div class="section-label">Where we are</div>
+    <div id="smi-overview-sections"></div>
+  </div>
+</div>
+
+<div class="view" id="view-timeline">
+  <div class="page wide">
+    <div class="eyebrow">Backwards-planned from mid-October</div>
+    <div class="h1">Timeline <span>→ October.</span></div>
+    <div class="sub">Every workstream, every task, every phase. Backwards-planned from the event date so nothing slides into panic territory.</div>
+    <div id="smi-phases"></div>
+    <div id="smi-workstreams"></div>
+  </div>
+</div>
+
+<div class="view" id="view-speakers">
+  <div class="page">
+    <div class="eyebrow">The voices</div>
+    <div class="h1">Speaker <span>line-up.</span></div>
+    <div class="sub">Each speaker owns a slice of the narrative arc. Every card needs: confirmed status, narrative role, talking points, slide ownership. Red means missing.</div>
+    <div id="smi-speakers"></div>
+  </div>
+</div>
+
+<div class="view" id="view-nurture">
+  <div class="page">
+    <div class="eyebrow">Post-event · 6-month cadence</div>
+    <div class="h1">Post-event <span>nurture.</span></div>
+    <div class="sub">Where the money is made. Most agencies drop the ball in weeks 3–8. Here's the structured cadence that keeps the conversation warm for 180 days.</div>
+    <div id="smi-nurture"></div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://iehkvlyjumkzccoqqgxl.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImllaGt2bHlqdW1remNjb3FxZ3hsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MTMwNzYsImV4cCI6MjA5MTM4OTA3Nn0.pF9K9aBwWN10JRT_ODTLPzsdPKH3X0CW30WrPMn9lGs';
+const H = { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' };
+
+const STATE = { workstreams:[], tasks:[], speakers:[], team:[], sequences:[], steps:[], decisions:[], loaded:false };
+
+async function loadAll() {
+  if (STATE.loaded) return;
+  const endpoints = {
+    workstreams: 'smi_workstreams?select=*&order=sort_order.asc',
+    tasks: 'smi_tasks?select=*',
+    speakers: 'smi_speakers?select=*&order=sort_order.asc',
+    team: 'team_members?select=*',
+    sequences: 'nurture_sequences?select=*',
+    steps: 'nurture_steps?select=*&order=step_number.asc',
+    decisions: 'strategic_decisions?select=*',
+  };
+  const results = await Promise.all(Object.entries(endpoints).map(async ([k, p]) => {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${p}`, { headers: H });
+    return [k, r.ok ? await r.json() : []];
+  }));
+  for (const [k, v] of results) STATE[k] = v;
+  STATE.loaded = true;
+}
+
+function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function personName(id) { const p = STATE.team.find(x => x.id === id); return p ? p.full_name : null; }
+
+function showView(v, btn) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  btn.classList.add('active');
+  if (v === 'overview') renderOverview();
+  if (v === 'timeline') renderTimeline();
+  if (v === 'speakers') renderSpeakers();
+  if (v === 'nurture') renderNurture();
+}
+
+async function renderOverview() {
+  await loadAll();
+  const tasks = STATE.tasks;
+  const done = tasks.filter(t => t.status === 'done').length;
+  const inProgress = tasks.filter(t => t.status === 'in_progress').length;
+  const notStarted = tasks.filter(t => t.status === 'not_started').length;
+  const speakersConfirmed = STATE.speakers.filter(s => s.status === 'confirmed').length;
+
+  // Days to event
+  const eventDate = new Date('2026-10-15');
+  const daysLeft = Math.max(0, Math.floor((eventDate - Date.now()) / 86400000));
+  const smiDecisions = STATE.decisions.filter(d => d.related_area === 'smi' && d.status === 'open').length;
+
+  document.getElementById('smi-stats').outerHTML = `
+    <div class="stats" id="smi-stats">
+      <div class="stat"><div class="stat-label">Days to event</div><div class="stat-value">${daysLeft}</div><div class="stat-sub">Mid-October 2026</div></div>
+      <div class="stat"><div class="stat-label">Tasks done</div><div class="stat-value ${done > 0 ? 'green' : ''}">${done}/${tasks.length}</div><div class="stat-sub">${inProgress} in progress · ${notStarted} not started</div></div>
+      <div class="stat"><div class="stat-label">Speakers confirmed</div><div class="stat-value ${speakersConfirmed === 5 ? 'green' : 'amber'}">${speakersConfirmed}/5</div><div class="stat-sub">${5 - speakersConfirmed} still TBD</div></div>
+      <div class="stat"><div class="stat-label">Open decisions</div><div class="stat-value ${smiDecisions > 0 ? 'amber' : 'green'}">${smiDecisions}</div><div class="stat-sub">Blocking event build</div></div>
+    </div>
+  `;
+
+  const sections = STATE.workstreams.map(ws => {
+    const myTasks = STATE.tasks.filter(t => t.workstream_id === ws.id);
+    const d = myTasks.filter(t => t.status === 'done').length;
+    return `<div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+        <div>
+          <div style="font-size:14px;font-weight:700">${esc(ws.title)}</div>
+          <div style="font-size:11px;color:var(--grey-mid);margin-top:3px">${esc(ws.description || '')}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;color:var(--grey-mid);font-family:'DM Mono',monospace">${d}/${myTasks.length} done</span>
+          <span class="pill ${ws.status === 'done' ? 'green' : ws.status === 'in_progress' ? 'amber' : ''}">${esc(ws.status.replace('_',' '))}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('smi-overview-sections').innerHTML = sections;
+}
+
+async function renderTimeline() {
+  await loadAll();
+  const phases = ['Foundation', 'Build', 'Promotion', 'Event', 'Post-Event'];
+  const phaseRanges = { Foundation: 'Now → Jul 26', Build: 'Jul → Sep 26', Promotion: 'Sep → Oct 26', Event: 'Mid-Oct 26', 'Post-Event': 'Oct 26 → Apr 27' };
+  const today = new Date();
+  document.getElementById('smi-phases').innerHTML = `<div class="phases">` + phases.map(p => {
+    const count = STATE.tasks.filter(t => t.phase === p).length;
+    return `<div class="phase">
+      <div class="phase-num">Phase ${phases.indexOf(p)+1}</div>
+      <div class="phase-name">${esc(p)}</div>
+      <div class="phase-range">${esc(phaseRanges[p])}</div>
+      <div class="phase-count">${count} task${count===1?'':'s'}</div>
+    </div>`;
+  }).join('') + '</div>';
+
+  const wsOut = STATE.workstreams.map(ws => {
+    const myTasks = STATE.tasks.filter(t => t.workstream_id === ws.id).sort((a,b)=>(a.due_date||'').localeCompare(b.due_date||''));
+    return `<div class="workstream-section">
+      <div class="workstream-header">
+        <div><div class="workstream-title">${esc(ws.title)}</div><div class="workstream-desc">${esc(ws.description || '')}</div></div>
+        <span class="pill ${ws.status === 'done' ? 'green' : ws.status === 'in_progress' ? 'amber' : ''}">${esc(ws.status.replace('_',' '))}</span>
+      </div>
+      ${myTasks.length ? `<div class="task-list">` + myTasks.map(t => {
+        const due = t.due_date ? new Date(t.due_date) : null;
+        const overdue = due && due < today && t.status !== 'done';
+        return `<div class="task-row ${t.status === 'done' ? 'done' : ''}">
+          <div class="task-check"></div>
+          <div>
+            <div class="task-title">${esc(t.title)}</div>
+            ${t.phase ? `<div style="font-size:10px;color:var(--grey-mid);font-family:'DM Mono',monospace;margin-top:2px">${esc(t.phase)}</div>` : ''}
+          </div>
+          <div class="task-meta">
+            <span class="pill ${t.priority==='critical'?'red':t.priority==='high'?'amber':''}">${esc(t.priority)}</span>
+            <span class="pill ${t.status==='done'?'green':t.status==='in_progress'?'amber':t.status==='blocked'?'red':''}">${esc(t.status.replace('_',' '))}</span>
+          </div>
+          <div class="task-due ${overdue ? 'overdue' : ''}">${t.due_date ? new Date(t.due_date).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '—'}</div>
+        </div>`;
+      }).join('') + '</div>' : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('smi-workstreams').innerHTML = wsOut;
+}
+
+async function renderSpeakers() {
+  await loadAll();
+  const cards = STATE.speakers.map(s => {
+    const hasAllInfo = s.status === 'confirmed' && s.narrative_role && s.talking_points;
+    const initials = (s.display_name || '').split(/\s+/).map(x => x[0]).join('').slice(0,2).toUpperCase();
+    return `<div class="speaker-card">
+      <div class="speaker-avatar">${esc(initials)}</div>
+      <div class="speaker-name">${esc(s.display_name)}</div>
+      <div class="speaker-role">${esc(s.role_label || '')}</div>
+      ${s.narrative_role ? `<div style="font-size:11.5px;color:#444;line-height:1.55;padding-top:8px;border-top:1px solid var(--border)"><strong style="font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:var(--grey-mid);display:block;margin-bottom:4px">Narrative role</strong>${esc(s.narrative_role)}</div>` : `<div class="tbd-strip" style="font-size:11px;padding:8px 10px">Narrative role not set</div>`}
+      ${s.talking_points ? `<div style="font-size:11.5px;color:#444;line-height:1.55"><strong style="font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:var(--grey-mid);display:block;margin-bottom:4px">Talking points</strong>${esc(s.talking_points)}</div>` : `<div class="tbd-strip" style="font-size:11px;padding:8px 10px">Talking points not drafted</div>`}
+      <div class="speaker-footer">
+        <span>${esc(s.session_title || 'Session TBD')}</span>
+        <span class="pill ${s.status==='confirmed'?'green':s.status==='tentative'?'amber':'red'}">${esc(s.status)}</span>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('smi-speakers').innerHTML = `<div class="speakers-grid">${cards}</div>`;
+}
+
+async function renderNurture() {
+  await loadAll();
+  const html = STATE.sequences.map(seq => {
+    const steps = STATE.steps.filter(s => s.sequence_id === seq.id);
+    return `<div style="margin-bottom:32px">
+      <div class="card" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div style="font-size:16px;font-weight:800;letter-spacing:-0.01em">${esc(seq.title)}</div>
+            <div style="font-size:12px;color:var(--grey-mid);margin-top:4px">${esc(seq.description || '')}</div>
+            <div style="font-size:11px;color:var(--grey-mid);margin-top:6px;font-family:'DM Mono',monospace">${seq.duration_days || 180} days · ${steps.length} steps</div>
+          </div>
+          <span class="pill ${seq.status === 'active' ? 'green' : 'amber'}">${esc(seq.status || '')}</span>
+        </div>
+      </div>
+      <div class="nurture-list">
+        <div class="nurture-list-header"><span>Step</span><span>Day</span><span>Title · Goal</span><span>Channel</span></div>
+        ${steps.map(s => `
+          <div class="nurture-step-row">
+            <div class="step-n">Step ${s.step_number}</div>
+            <div class="step-offset">+${s.offset_days}d</div>
+            <div><div style="font-weight:600">${esc(s.title)}</div>${s.goal ? `<span class="step-goal">${esc(s.goal)}</span>` : ''}</div>
+            <div><span class="pill">${esc(s.channel_type || '')}</span></div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('smi-nurture').innerHTML = html || '<div class="tbd-strip">No sequences defined</div>';
+}
+
+renderOverview();
+</script>
+<script src="https://jungle-is-massive.github.io/hub/hub-overlay.js" defer></script>
+</body>
+</html>
