@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Maturity Index — Jungle Creations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:      #F5F2EB;
+  --black:      #111110;
+  --green:      #8BFF57;
+  --green-mid:  #5acc30;
+  --green-dim:  #3a8c1c;
+  --white:      #FAFAF7;
+  --grey-light: #ECEAE3;
+  --grey:       #C8C4BB;
+  --grey-mid:   #888580;
+  --border:     #E2DFD8;
+  --red:        #e05c5c;
+  --amber:      #f5a623;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--black);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--black);
+  display: flex; align-items: center; padding: 0 32px; height: 56px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo {
+  font-size: 13px; font-weight: 800; color: var(--green);
+  letter-spacing: -0.01em; margin-right: 28px; white-space: nowrap;
+}
+.nav-logo span { color: rgba(255,255,255,0.35); font-weight: 400; }
+.nav-links { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-link {
+  background: none; border: none; color: rgba(255,255,255,0.45);
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600;
+  padding: 0 14px; height: 56px; cursor: pointer; white-space: nowrap;
+  text-decoration: none; display: inline-flex; align-items: center;
+  border-bottom: 2px solid transparent; transition: color .15s, border-color .15s;
+}
+.nav-link:hover { color: rgba(255,255,255,0.8); }
+.nav-link.active { color: var(--green); border-bottom-color: var(--green); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.nav-cta {
+  background: var(--green); color: var(--black); border: none;
+  padding: 7px 16px; border-radius: 100px; font-family: 'DM Sans', sans-serif;
+  font-weight: 700; font-size: 11px; cursor: pointer; letter-spacing: -0.01em;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 5px;
+  transition: background .12s;
+}
+.nav-cta:hover { background: var(--green-mid); }
+
+/* ── LAYOUT ── */
+main { padding-top: 56px; }
+section { scroll-margin-top: 70px; }
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+.container.wide { max-width: 1200px; }
+
+/* ── HERO ── */
+.hero-section {
+  background: var(--black);
+  padding: 88px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-section::before {
+  content: '';
+  position: absolute; top: -60px; right: -80px;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(139,255,87,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--green);
+  margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--green); }
+.hero-h1 {
+  font-size: clamp(44px, 6vw, 80px); font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.0; color: var(--cream);
+  margin-bottom: 8px;
+}
+.hero-h1 em { color: var(--green); font-style: italic; font-weight: 400; }
+.hero-sub {
+  font-size: 18px; color: rgba(255,255,255,0.6); line-height: 1.6;
+  max-width: 620px; margin: 24px 0 40px;
+}
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--green); color: var(--black); border: none;
+  padding: 14px 28px; border-radius: 100px; font-family: 'DM Sans', sans-serif;
+  font-weight: 700; font-size: 14px; cursor: pointer; letter-spacing: -0.01em;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+  transition: background .12s, transform .1s;
+}
+.btn-primary:hover { background: var(--green-mid); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent; color: rgba(255,255,255,0.7);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  padding: 13px 24px; border-radius: 100px; font-family: 'DM Sans', sans-serif;
+  font-weight: 600; font-size: 14px; cursor: pointer; letter-spacing: -0.01em;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+  transition: border-color .12s, color .12s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: white; }
+
+.hero-stats {
+  display: flex; gap: 40px; margin-top: 56px;
+  padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1);
+}
+.hero-stat-value {
+  font-size: 36px; font-weight: 800; color: var(--green);
+  letter-spacing: -0.04em; line-height: 1; font-family: 'DM Mono', monospace;
+}
+.hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+/* ── SECTION HEADERS ── */
+.section-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey-mid);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+}
+.section-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.section-h2 {
+  font-size: clamp(30px, 4vw, 46px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.08; margin-bottom: 14px;
+}
+.section-h2 em { color: var(--green-dim); font-style: italic; font-weight: 400; }
+.section-sub {
+  font-size: 15px; color: var(--grey-mid); line-height: 1.6;
+  max-width: 680px; margin-bottom: 40px;
+}
+.section-divider {
+  display: flex; align-items: center; gap: 16px;
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--grey-mid); margin: 64px 0 40px;
+}
+.section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── WHAT IS IT ── */
+.what-section { padding: 80px 0; }
+.what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+@media (max-width: 720px) { .what-grid { grid-template-columns: 1fr; } }
+.what-text p { font-size: 16px; line-height: 1.7; color: #333; margin-bottom: 18px; }
+.what-text p:last-child { margin-bottom: 0; }
+.what-text strong { color: var(--black); font-weight: 700; }
+.output-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.output-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5;
+}
+.output-list li::before {
+  content: ''; width: 20px; height: 20px; flex-shrink: 0;
+  background: var(--black); border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238BFF57' stroke-width='2.5'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+  background-size: 12px; background-repeat: no-repeat; background-position: center;
+  margin-top: 1px;
+}
+
+/* ── FIVE PILLARS ── */
+.pillars-section { padding: 80px 0; background: var(--black); }
+.pillars-section .section-eyebrow::before { background: var(--green); }
+.pillars-section .section-h2 { color: var(--cream); }
+.pillars-section .section-sub { color: rgba(255,255,255,0.5); }
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+  margin-top: 40px;
+}
+@media (max-width: 900px) { .pillars-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .pillars-grid { grid-template-columns: 1fr 1fr; } }
+
+.pillar-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 22px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: background .15s, border-color .15s;
+  cursor: default;
+}
+.pillar-card:hover { background: rgba(139,255,87,0.06); border-color: rgba(139,255,87,0.2); }
+.pillar-num {
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--green);
+  letter-spacing: 0.1em;
+}
+.pillar-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(139,255,87,0.1); display: flex; align-items: center;
+  justify-content: center; font-size: 18px;
+}
+.pillar-name { font-size: 15px; font-weight: 700; color: var(--cream); letter-spacing: -0.01em; }
+.pillar-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+.pillar-questions { margin-top: 8px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); }
+.pillar-q {
+  font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.55;
+  padding: 4px 0; display: flex; align-items: flex-start; gap: 6px;
+}
+.pillar-q::before {
+  content: '—'; color: rgba(139,255,87,0.4);
+  font-family: 'DM Mono', monospace; font-size: 10px; margin-top: 1px; flex-shrink: 0;
+}
+.pillars-scoring-note {
+  margin-top: 28px; padding: 14px 18px;
+  background: rgba(139,255,87,0.08); border: 1px solid rgba(139,255,87,0.2);
+  border-radius: 10px; font-size: 13px; color: rgba(255,255,255,0.65);
+  display: flex; align-items: center; gap: 10px;
+}
+.pillars-scoring-note strong { color: var(--green); }
+
+/* ── HOW IT WORKS ── */
+.how-section { padding: 80px 0; }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+@media (max-width: 800px) { .steps-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
+.step-card {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 22px 20px; display: flex; flex-direction: column; gap: 10px;
+}
+.step-num {
+  font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 500;
+  color: var(--green-dim); letter-spacing: -0.02em; line-height: 1;
+}
+.step-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+.step-desc { font-size: 13px; color: var(--grey-mid); line-height: 1.55; }
+.step-duration {
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--grey-mid);
+  letter-spacing: 0.08em; text-transform: uppercase; margin-top: auto; padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── MATURITY STAGES ── */
+.stages-section { padding: 80px 0; background: var(--white); }
+.stages-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
+  border-radius: 12px; overflow: hidden; margin-bottom: 32px;
+}
+.stage-bar-item {
+  padding: 14px 16px; cursor: pointer;
+  transition: opacity .15s;
+}
+.stage-bar-item[data-stage="0"] { background: #E8E5DE; }
+.stage-bar-item[data-stage="1"] { background: #D4EFC9; }
+.stage-bar-item[data-stage="2"] { background: #9ED98A; }
+.stage-bar-item[data-stage="3"] { background: var(--black); }
+.stage-bar-name { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; }
+.stage-bar-item[data-stage="0"] .stage-bar-name { color: var(--grey-mid); }
+.stage-bar-item[data-stage="1"] .stage-bar-name { color: #2d6b00; }
+.stage-bar-item[data-stage="2"] .stage-bar-name { color: #1a4a00; }
+.stage-bar-item[data-stage="3"] .stage-bar-name { color: var(--green); }
+.stage-bar-range { font-family: 'DM Mono', monospace; font-size: 10px; margin-top: 3px; opacity: 0.65; }
+.stage-bar-item[data-stage="0"] .stage-bar-range { color: var(--grey-mid); }
+.stage-bar-item[data-stage="1"] .stage-bar-range { color: #2d6b00; }
+.stage-bar-item[data-stage="2"] .stage-bar-range { color: #1a4a00; }
+.stage-bar-item[data-stage="3"] .stage-bar-range { color: var(--green); }
+
+.stages-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 700px) { .stages-detail { grid-template-columns: 1fr; } }
+.stage-card {
+  border-radius: 14px; padding: 24px; border: 2px solid transparent;
+  transition: border-color .15s;
+}
+.stage-card[data-stage="0"] { background: #F0EDE6; border-color: #E0DDD6; }
+.stage-card[data-stage="1"] { background: #EDF7E8; border-color: #C5E8B4; }
+.stage-card[data-stage="2"] { background: #D8F0CC; border-color: #9ED98A; }
+.stage-card[data-stage="3"] { background: var(--black); border-color: rgba(139,255,87,0.3); }
+.stage-pill {
+  display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px;
+  font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 100px; margin-bottom: 10px;
+}
+.stage-card[data-stage="0"] .stage-pill { background: rgba(0,0,0,0.08); color: var(--grey-mid); }
+.stage-card[data-stage="1"] .stage-pill { background: rgba(139,255,87,0.25); color: #2d6b00; }
+.stage-card[data-stage="2"] .stage-pill { background: rgba(58,140,28,0.2); color: #1a4a00; }
+.stage-card[data-stage="3"] .stage-pill { background: rgba(139,255,87,0.15); color: var(--green); }
+.stage-name { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+.stage-card[data-stage="3"] .stage-name { color: var(--cream); }
+.stage-desc { font-size: 13px; line-height: 1.6; }
+.stage-card[data-stage="0"] .stage-desc { color: #666; }
+.stage-card[data-stage="1"] .stage-desc { color: #3a5a30; }
+.stage-card[data-stage="2"] .stage-desc { color: #2a4a20; }
+.stage-card[data-stage="3"] .stage-desc { color: rgba(255,255,255,0.65); }
+.stage-signals { margin-top: 14px; padding-top: 12px; border-top: 1px solid; }
+.stage-card[data-stage="0"] .stage-signals { border-color: rgba(0,0,0,0.08); }
+.stage-card[data-stage="1"] .stage-signals { border-color: rgba(0,0,0,0.08); }
+.stage-card[data-stage="2"] .stage-signals { border-color: rgba(0,0,0,0.1); }
+.stage-card[data-stage="3"] .stage-signals { border-color: rgba(255,255,255,0.1); }
+.stage-signal-label {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.stage-card[data-stage="0"] .stage-signal-label { color: var(--grey-mid); }
+.stage-card[data-stage="1"] .stage-signal-label { color: #2d6b00; }
+.stage-card[data-stage="2"] .stage-signal-label { color: #1a4a00; }
+.stage-card[data-stage="3"] .stage-signal-label { color: var(--green); }
+.stage-signal-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.stage-signal-list li { font-size: 12px; line-height: 1.5; padding-left: 14px; position: relative; }
+.stage-signal-list li::before { content: '·'; position: absolute; left: 0; }
+.stage-card[data-stage="0"] .stage-signal-list li { color: #888; }
+.stage-card[data-stage="0"] .stage-signal-list li::before { color: var(--grey); }
+.stage-card[data-stage="1"] .stage-signal-list li { color: #3a5a30; }
+.stage-card[data-stage="1"] .stage-signal-list li::before { color: var(--green-dim); }
+.stage-card[data-stage="2"] .stage-signal-list li { color: #2a4520; }
+.stage-card[data-stage="2"] .stage-signal-list li::before { color: var(--green-dim); }
+.stage-card[data-stage="3"] .stage-signal-list li { color: rgba(255,255,255,0.55); }
+.stage-card[data-stage="3"] .stage-signal-list li::before { color: var(--green); }
+.stage-jungle-rec {
+  margin-top: 12px; padding: 10px 12px; border-radius: 8px;
+  font-size: 12px; line-height: 1.55;
+}
+.stage-card[data-stage="0"] .stage-jungle-rec { background: rgba(0,0,0,0.06); color: #555; }
+.stage-card[data-stage="1"] .stage-jungle-rec { background: rgba(139,255,87,0.15); color: #2d6b00; }
+.stage-card[data-stage="2"] .stage-jungle-rec { background: rgba(58,140,28,0.15); color: #1a4a00; }
+.stage-card[data-stage="3"] .stage-jungle-rec { background: rgba(139,255,87,0.1); color: var(--green); }
+.stage-jungle-rec strong { font-weight: 700; display: block; margin-bottom: 3px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+
+/* ── WHO IS IT FOR ── */
+.who-section { padding: 80px 0; }
+.who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 680px) { .who-grid { grid-template-columns: 1fr; } }
+.who-card {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 16px; padding: 28px 24px;
+}
+.who-tag {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--grey-mid); background: var(--grey-light);
+  padding: 4px 10px; border-radius: 100px; display: inline-block; margin-bottom: 14px;
+}
+.who-title { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+.who-subtitle { font-size: 13px; color: var(--grey-mid); margin-bottom: 16px; line-height: 1.5; }
+.who-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.who-list li { font-size: 13px; line-height: 1.5; padding-left: 16px; position: relative; color: #444; }
+.who-list li::before { content: '→'; position: absolute; left: 0; color: var(--green-dim); font-size: 11px; top: 2px; }
+
+/* ── CTA ── */
+.cta-section {
+  padding: 88px 0;
+  background: var(--black);
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; bottom: -100px; left: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(139,255,87,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-inner { max-width: 680px; }
+.cta-h2 {
+  font-size: clamp(34px, 4.5vw, 56px); font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.05; color: var(--cream);
+  margin-bottom: 18px;
+}
+.cta-h2 em { color: var(--green); font-style: italic; font-weight: 400; }
+.cta-sub { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 36px; max-width: 560px; }
+.cta-disclaimer { font-size: 12px; color: rgba(255,255,255,0.25); margin-top: 16px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--black); border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 28px 32px; display: flex; justify-content: space-between;
+  align-items: center; font-size: 12px; color: rgba(255,255,255,0.3);
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-logo { font-weight: 800; color: rgba(255,255,255,0.5); letter-spacing: -0.01em; }
+.footer-back {
+  color: rgba(255,255,255,0.4); text-decoration: none; font-size: 11px;
+  font-family: 'DM Mono', monospace; letter-spacing: 0.06em;
+  display: flex; align-items: center; gap: 6px;
+  transition: color .12s;
+}
+.footer-back:hover { color: var(--green); }
+
+/* ── SCROLL ANIMATIONS ── */
+.fade-up {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  .hero-stats { flex-wrap: wrap; gap: 24px; }
+  nav { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://jungle-is-massive.github.io/smi/" class="nav-logo">Jungle <span>/</span> SMI</a>
+  <div class="nav-links">
+    <a href="#what" class="nav-link">What is it</a>
+    <a href="#pillars" class="nav-link">Five pillars</a>
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#stages" class="nav-link">Maturity stages</a>
+    <a href="#who" class="nav-link">Who it's for</a>
+  </div>
+  <div class="nav-right">
+    <a href="#cta" class="nav-cta">Take the assessment →</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ── HERO ── -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-eyebrow">Jungle Creations · October 2026</div>
+    <h1 class="hero-h1">Social Maturity<br><em>Index.</em></h1>
+    <p class="hero-sub">A diagnostic framework that tells you exactly where your brand sits on the social maturity curve — and what it takes to move up.</p>
+    <div class="hero-ctas">
+      <a href="#cta" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Take the assessment
+      </a>
+      <a href="#how" class="btn-ghost">How it works →</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-value">5</div>
+        <div class="hero-stat-label">Pillars assessed</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">75</div>
+        <div class="hero-stat-label">Points maximum</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">4</div>
+        <div class="hero-stat-label">Maturity stages</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">30<span style="font-size:18px;opacity:.6">min</span></div>
+        <div class="hero-stat-label">To complete</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT IS IT ── -->
+<section class="what-section" id="what">
+  <div class="container">
+    <div class="what-grid">
+      <div class="what-text fade-up">
+        <div class="section-eyebrow">The framework</div>
+        <h2 class="section-h2">Not a benchmark.<br><em>A blueprint.</em></h2>
+        <p>Most brands know they should be doing more with social. Very few know what <strong>"more" actually looks like</strong> — or where they're genuinely falling short.</p>
+        <p>The Social Maturity Index gives marketing leaders a structured, honest view of where their social ecosystem stands across five critical dimensions: content, creators, distribution, data, and governance.</p>
+        <p>It's not an audit of what you're posting. It's a diagnostic of how you're <strong>built to operate</strong> — and where the gaps are costing you.</p>
+      </div>
+      <div class="fade-up" style="animation-delay:.1s">
+        <div class="section-eyebrow" style="margin-bottom:16px">What you get</div>
+        <ul class="output-list">
+          <li>A scored view of your brand across all five pillars</li>
+          <li>Your maturity stage: Emerging, Developing, Operational, or Strategic</li>
+          <li>A clear picture of where your gaps are and what they're costing you</li>
+          <li>Prescriptive recommendations mapped to your exact stage</li>
+          <li>A benchmark against where leading brands typically sit</li>
+          <li>A custom growth roadmap from a Jungle strategist</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FIVE PILLARS ── -->
+<section class="pillars-section" id="pillars">
+  <div class="container wide">
+    <div class="section-eyebrow">Assessment criteria</div>
+    <h2 class="section-h2" style="color:var(--cream)">Five pillars.<br><em>One system.</em></h2>
+    <p class="section-sub">Every pillar is scored 1–5 across three evaluation criteria. Your scores combine to reveal exactly where your system is strong — and where it's holding you back.</p>
+
+    <div class="pillars-grid">
+
+      <div class="pillar-card fade-up">
+        <div class="pillar-num">01</div>
+        <div class="pillar-icon">✍️</div>
+        <div class="pillar-name">Content</div>
+        <div class="pillar-desc">How you create, plan, and deploy content across platforms.</div>
+        <div class="pillar-questions">
+          <div class="pillar-q">We produce platform-native content tailored for each channel</div>
+          <div class="pillar-q">Content creation is modular, not one-off</div>
+          <div class="pillar-q">Creative is aligned to funnel stages</div>
+        </div>
+      </div>
+
+      <div class="pillar-card fade-up" style="animation-delay:.05s">
+        <div class="pillar-num">02</div>
+        <div class="pillar-icon">🤝</div>
+        <div class="pillar-name">Creator</div>
+        <div class="pillar-desc">How you identify, brief, and measure creator partnerships.</div>
+        <div class="pillar-questions">
+          <div class="pillar-q">We have a consistent influencer strategy across campaigns</div>
+          <div class="pillar-q">Creators are selected for brand fit, not just reach</div>
+          <div class="pillar-q">Creator partnerships are structured and track ROI</div>
+        </div>
+      </div>
+
+      <div class="pillar-card fade-up" style="animation-delay:.1s">
+        <div class="pillar-num">03</div>
+        <div class="pillar-icon">📡</div>
+        <div class="pillar-name">Distribution</div>
+        <div class="pillar-desc">How paid and organic work together to reach the right audiences.</div>
+        <div class="pillar-questions">
+          <div class="pillar-q">Paid and organic social work in tandem</div>
+          <div class="pillar-q">Boosting decisions are data-informed</div>
+          <div class="pillar-q">Distribution plans are sequenced by audience behaviour</div>
+        </div>
+      </div>
+
+      <div class="pillar-card fade-up" style="animation-delay:.15s">
+        <div class="pillar-num">04</div>
+        <div class="pillar-icon">📊</div>
+        <div class="pillar-name">Data &amp; Measurement</div>
+        <div class="pillar-desc">How you capture, interpret, and act on performance data.</div>
+        <div class="pillar-questions">
+          <div class="pillar-q">We track performance in real time across platforms</div>
+          <div class="pillar-q">Benchmarks are in place per format and platform</div>
+          <div class="pillar-q">We act on insight, not just report it</div>
+        </div>
+      </div>
+
+      <div class="pillar-card fade-up" style="animation-delay:.2s">
+        <div class="pillar-num">05</div>
+        <div class="pillar-icon">🏗️</div>
+        <div class="pillar-name">Governance</div>
+        <div class="pillar-desc">How decisions get made, roles assigned, and systems reviewed.</div>
+        <div class="pillar-questions">
+          <div class="pillar-q">We have consistent briefing structures and timelines</div>
+          <div class="pillar-q">Roles across brand, social, media and creative are clear</div>
+          <div class="pillar-q">We review and iterate on systems quarterly</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pillars-scoring-note fade-up" style="animation-delay:.25s">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+      <span>Each pillar is scored <strong>out of 15</strong> (3 questions × 5 points). Total system score: <strong>out of 75</strong>. Higher scores mean greater maturity — but the gaps matter more than the total.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how-section" id="how">
+  <div class="container">
+    <div class="section-eyebrow">The process</div>
+    <h2 class="section-h2">Simple to run.<br><em>Impossible to ignore.</em></h2>
+    <p class="section-sub">The SMI is designed to be completed in a single working session with your team — no preparation needed, no long reports to read afterwards.</p>
+
+    <div class="steps-grid">
+      <div class="step-card fade-up">
+        <div class="step-num">01</div>
+        <div class="step-title">Review each pillar</div>
+        <div class="step-desc">Work through each of the five pillars in turn. Read the evaluation criteria to understand what strong looks like in each area.</div>
+        <div class="step-duration">5 min per pillar</div>
+      </div>
+      <div class="step-card fade-up" style="animation-delay:.06s">
+        <div class="step-num">02</div>
+        <div class="step-title">Score honestly</div>
+        <div class="step-desc">Rate your brand 1–5 on each criterion. The guiding statements help anchor your score. Be honest — this is a diagnostic, not a pitch.</div>
+        <div class="step-duration">The hard part</div>
+      </div>
+      <div class="step-card fade-up" style="animation-delay:.12s">
+        <div class="step-num">03</div>
+        <div class="step-title">Find your stage</div>
+        <div class="step-desc">Your total score places you in one of four maturity stages: Emerging, Developing, Operational, or Strategic. Each has a clear definition and implications.</div>
+        <div class="step-duration">Instant result</div>
+      </div>
+      <div class="step-card fade-up" style="animation-delay:.18s">
+        <div class="step-num">04</div>
+        <div class="step-title">Get your roadmap</div>
+        <div class="step-desc">Share your results with Jungle and we'll map prescriptive recommendations to your exact stage — including where to start, what to fix, and what to build next.</div>
+        <div class="step-duration">Free with Jungle</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MATURITY STAGES ── -->
+<section class="stages-section" id="stages">
+  <div class="container">
+    <div class="section-eyebrow">Where you'll land</div>
+    <h2 class="section-h2">Four stages.<br><em>One direction.</em></h2>
+    <p class="section-sub">Every brand lands in one of four stages. There's no shame in Emerging — the point is knowing exactly where you are so you can move.</p>
+
+    <div class="stages-bar fade-up">
+      <div class="stage-bar-item" data-stage="0">
+        <div class="stage-bar-name">Emerging</div>
+        <div class="stage-bar-range">0 – 25 pts</div>
+      </div>
+      <div class="stage-bar-item" data-stage="1">
+        <div class="stage-bar-name">Developing</div>
+        <div class="stage-bar-range">26 – 45 pts</div>
+      </div>
+      <div class="stage-bar-item" data-stage="2">
+        <div class="stage-bar-name">Operational</div>
+        <div class="stage-bar-range">46 – 60 pts</div>
+      </div>
+      <div class="stage-bar-item" data-stage="3">
+        <div class="stage-bar-name">Strategic</div>
+        <div class="stage-bar-range">61 – 75 pts</div>
+      </div>
+    </div>
+
+    <div class="stages-detail">
+
+      <div class="stage-card fade-up" data-stage="0">
+        <span class="stage-pill">0–25 · Emerging</span>
+        <div class="stage-name">Fragmented &amp; reactive.</div>
+        <div class="stage-desc">Social is happening, but it's not a system. Output is driven by brief-to-brief thinking, creator choices are gut-driven, and there's no meaningful measurement in place.</div>
+        <div class="stage-signals">
+          <div class="stage-signal-label">What this looks like</div>
+          <ul class="stage-signal-list">
+            <li>Reactive posting — content follows events, not strategy</li>
+            <li>No consistent creator approach or ROI tracking</li>
+            <li>Paid and organic treated as separate channels</li>
+            <li>Reporting is output-focused, not insight-led</li>
+            <li>No formal briefing structure or review cycle</li>
+          </ul>
+        </div>
+        <div class="stage-jungle-rec">
+          <strong>Jungle recommendation</strong>
+          Start with a JungleIQ audit to uncover foundational gaps. Launch a pilot content system with measurable goals and native-first creative.
+        </div>
+      </div>
+
+      <div class="stage-card fade-up" data-stage="1" style="animation-delay:.08s">
+        <span class="stage-pill">26–45 · Developing</span>
+        <div class="stage-name">Systems emerging. Consistency missing.</div>
+        <div class="stage-desc">Some structure is in place. Content quality is improving. But creator partnerships, data systems, and governance are inconsistent — which caps what's possible.</div>
+        <div class="stage-signals">
+          <div class="stage-signal-label">What this looks like</div>
+          <ul class="stage-signal-list">
+            <li>A content calendar exists but isn't always followed</li>
+            <li>Creator work happens but isn't consistently measured</li>
+            <li>Some paid amplification, no clear framework for it</li>
+            <li>Basic reporting in place, not yet actionable</li>
+            <li>Some clarity on roles, but cross-team friction exists</li>
+          </ul>
+        </div>
+        <div class="stage-jungle-rec">
+          <strong>Jungle recommendation</strong>
+          Engage Pollinate for structured creator partnerships. Introduce modular content formats and a distribution framework via Growth Lab.
+        </div>
+      </div>
+
+      <div class="stage-card fade-up" data-stage="2" style="animation-delay:.08s">
+        <span class="stage-pill">46–60 · Operational</span>
+        <div class="stage-name">Strong creative. Scale is the next step.</div>
+        <div class="stage-desc">Good creative and real structure. The opportunity now is integration — connecting data across channels, scaling creator programmes, and formalising how the whole system talks to itself.</div>
+        <div class="stage-signals">
+          <div class="stage-signal-label">What this looks like</div>
+          <ul class="stage-signal-list">
+            <li>Content is platform-native and produced at volume</li>
+            <li>Creators selected on fit and tracked on ROI</li>
+            <li>Paid and organic inform each other, mostly</li>
+            <li>Real-time data access — but not always acted on</li>
+            <li>Clear roles, but system-level thinking is still emerging</li>
+          </ul>
+        </div>
+        <div class="stage-jungle-rec">
+          <strong>Jungle recommendation</strong>
+          Integrate JungleIQ dashboards across teams. Expand test-and-learn. Formalise cross-functional roles and ops to remove friction at scale.
+        </div>
+      </div>
+
+      <div class="stage-card fade-up" data-stage="3" style="animation-delay:.16s">
+        <span class="stage-pill">61–75 · Strategic</span>
+        <div class="stage-name">Mature. Data-led. Room to innovate.</div>
+        <div class="stage-desc">A genuinely mature content system. Data-led, modular, scalable. The focus shifts from building the system to pushing its edges — creator-led performance loops, commerce journeys, system innovation.</div>
+        <div class="stage-signals">
+          <div class="stage-signal-label">What this looks like</div>
+          <ul class="stage-signal-list">
+            <li>Modular content engine operating at scale</li>
+            <li>Creator network structured, measured, performing</li>
+            <li>Distribution fully integrated — paid feeds organic</li>
+            <li>Insight drives decisions, benchmarks are live</li>
+            <li>Governance is clear, reviewed quarterly, evolving</li>
+          </ul>
+        </div>
+        <div class="stage-jungle-rec">
+          <strong>Jungle recommendation</strong>
+          Use Growth Lab to unlock system innovation — retail commerce journeys, creator-led performance loops. Share learnings internally and externally.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO IS IT FOR ── -->
+<section class="who-section" id="who">
+  <div class="container">
+    <div class="section-eyebrow">Designed for</div>
+    <h2 class="section-h2">The brands <em>ready to know.</em></h2>
+    <p class="section-sub">The SMI is most useful when you're prepared to be honest about where you are. That takes a certain kind of marketing leader.</p>
+
+    <div class="who-grid">
+      <div class="who-card fade-up">
+        <div class="who-tag">ICP 1 · Established brands</div>
+        <div class="who-title">The tired brands.</div>
+        <div class="who-subtitle">Heavy ATL spenders with significant social underinvestment. Board-level recognition that something needs to change.</div>
+        <ul class="who-list">
+          <li>£5m+ ATL budgets with understated social investment</li>
+          <li>Retail, FMCG, homewares, telco, travel — big-box brands</li>
+          <li>Know they're behind on social but don't have a clear view of how far</li>
+          <li>Looking for a framework to make the internal case for change</li>
+          <li>DFS is the prototype: zero to owned social operating system</li>
+        </ul>
+      </div>
+      <div class="who-card fade-up" style="animation-delay:.08s">
+        <div class="who-tag">ICP 2 · Growth brands</div>
+        <div class="who-title">The growth-hungry SMEs.</div>
+        <div class="who-subtitle">Mid-market brands (£10–15m revenue) that want a full-service partner and a system that scales with them.</div>
+        <ul class="who-list">
+          <li>Revenue £10–15m, 50–250 employees</li>
+          <li>No agency roster — want strategy, creative, influence, and paid in one place</li>
+          <li>Fast to convert, sticky once embedded</li>
+          <li>Want to build social as a genuine growth engine, not a support channel</li>
+          <li>Relationships that compound as the brand grows</li>
+        </ul>
+      </div>
+      <div class="who-card fade-up" style="animation-delay:.04s">
+        <div class="who-tag">Role · Marketing leadership</div>
+        <div class="who-title">The people in the room.</div>
+        <div class="who-subtitle">The SMI is built for the leaders who own the social budget and the brief — not for their agencies.</div>
+        <ul class="who-list">
+          <li>CMOs making the case to their board for social investment</li>
+          <li>Heads of Social who know their system has gaps but can't articulate them</li>
+          <li>Brand Directors feeling the gap between ATL spend and social output</li>
+          <li>Marketing Directors preparing for an agency review</li>
+        </ul>
+      </div>
+      <div class="who-card fade-up" style="animation-delay:.12s">
+        <div class="who-tag">Trigger · The right moment</div>
+        <div class="who-title">When to use it.</div>
+        <div class="who-subtitle">The SMI lands hardest at a specific moment in the brand's journey — usually when something has just changed.</div>
+        <ul class="who-list">
+          <li>New CMO or Head of Marketing in post — first 90 days</li>
+          <li>Brand relaunch or major campaign in planning</li>
+          <li>Agency review underway or just concluded</li>
+          <li>Declining social performance with no clear diagnosis</li>
+          <li>Competitor is visibly outperforming on social</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="cta-h2">You've scored your brand.<br><em>Now let's move it.</em></h2>
+      <p class="cta-sub">Share your results with Jungle and we'll map a custom growth roadmap to your exact maturity stage — what to fix first, what to build next, and what the step-change looks like.</p>
+      <div class="hero-ctas">
+        <a href="mailto:corisleachman@junglecreations.com?subject=Social Maturity Index — book an audit" class="btn-primary" style="font-size:15px;padding:16px 32px">
+          Book a Social Systems Audit
+        </a>
+        <a href="https://jungle-is-massive.github.io/smi/" class="btn-ghost" style="font-size:14px;padding:15px 24px">View the event →</a>
+      </div>
+      <p class="cta-disclaimer">No cost. No pitch deck. A strategist reviews your scores and builds a roadmap specific to your brand.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">Jungle Creations · Social Maturity Index · 2026</div>
+  <a href="https://jungle-is-massive.github.io/smi/" class="footer-back">
+    ← Back to SMI hub
+  </a>
+</footer>
+
+<script>
+// ── Scroll-triggered fade-up animations ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ── Active nav link on scroll ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(s => navObserver.observe(s));
+</script>
+
+<script src="https://jungle-is-massive.github.io/hub/hub-overlay.js" defer></script>
+</body>
+</html>
