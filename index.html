@@ -286,12 +286,29 @@ function showView(v, btn) {
   document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
   document.getElementById('view-' + v).classList.add('active');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
   if (v === 'overview') renderOverview();
   if (v === 'timeline') renderTimeline();
   if (v === 'speakers') renderSpeakers();
   if (v === 'nurture') renderNurture();
+  history.replaceState(null,'','#'+v);
 }
+
+// Hash routing
+(function initHash_smi(){
+  const validTabs = ['overview','timeline','speakers','nurture'];
+  const trySwitch = (hash, attempts) => {
+    const btn = document.querySelector(`.nav-tab[onclick*="'${hash}'"]`);
+    if(btn){ showView(hash, btn); }
+    else if(attempts > 0){ setTimeout(()=>trySwitch(hash, attempts-1), 150); }
+  };
+  const hash = window.location.hash.replace('#','');
+  if(validTabs.includes(hash)) setTimeout(()=>trySwitch(hash, 20), 200);
+  window.addEventListener('hashchange', () => {
+    const h = window.location.hash.replace('#','');
+    if(validTabs.includes(h)) trySwitch(h, 10);
+  });
+})();
 
 async function renderOverview() {
   await loadAll();
